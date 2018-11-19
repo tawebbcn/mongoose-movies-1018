@@ -10,6 +10,17 @@
         <li><a href="/">Home</a></li>
         <li><a href="/celebrities">Celebrities list</a></li>
         <li><a href="/celebrities/new">Create celebrity</a></li>
+        {{#unless currentUser}}
+        <li><a href="/auth/signup">Sign Up</a></li>
+        <li><a href="/auth/login">Login</a></li>
+        {{else }}
+        <li>{{currentUser.username}}</li>
+        <li>
+          <form action="/auth/logout" method="POST">
+            <button type="submit">Logout</button>
+          </form>
+        </li>
+        {{/unless}}
       </ul>
     </nav>
     {{{body}}}
