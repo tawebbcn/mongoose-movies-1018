@@ -5,9 +5,12 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 
 const indexRouter = require('./routes/index');
 const celebritiesRouter = require('./routes/celebrities');
+const authRouter = require('./routes/auth');
 
 const app = express();
 
@@ -16,6 +19,20 @@ mongoose.connect('mongodb://localhost/celebrities', {
   useNewUrlParser: true,
   reconnectTries: Number.MAX_VALUE
 });
+
+// session
+app.use(session({
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection,
+    ttl: 24 * 60 * 60 // 1 day
+  }),
+  secret: 'some-string',
+  resave: true,
+  saveUninitialized: true,
+  cookie: {
+    maxAge: 24 * 60 * 60 * 1000
+  }
+}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -29,6 +46,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/celebrities', celebritiesRouter);
+app.use('/auth', authRouter);
 
 // -- 404 and error handler
 
