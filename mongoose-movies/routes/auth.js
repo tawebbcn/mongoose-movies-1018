@@ -2,23 +2,24 @@
 
 const express = require('express');
 const router = express.Router();
-const User = require('../models/user');
-
 const bcrypt = require('bcrypt');
+
+const User = require('../models/user');
+const authMiddleware = require('../middlewares/authMiddleware');
+const formMiddleware = require('../middlewares/formMiddleware');
+
 const saltRounds = 10;
 
-router.get('/signup', (req, res, next) => {
+router.get('/signup', authMiddleware.requireAnon, (req, res, next) => {
   res.render('auth/signup');
 });
 
-router.post('/signup', (req, res, next) => {
+router.post('/signup', authMiddleware.requireAnon, formMiddleware.requireFields, (req, res, next) => {
   const { username, password } = req.body;
-  if (!username || !password) {
-    return res.redirect('/auth/signup');
-  }
   User.findOne({ username })
     .then((user) => {
       if (user) {
+        // Username already taken
         return res.redirect('/auth/signup');
       }
       const salt = bcrypt.genSaltSync(saltRounds);
@@ -36,21 +37,20 @@ router.post('/signup', (req, res, next) => {
     .catch(next);
 });
 
-router.get('/login', (req, res, next) => {
+router.get('/login', authMiddleware.requireAnon, (req, res, next) => {
   res.render('auth/login');
 });
 
-router.post('/login', (req, res, next) => {
+router.post('/login', authMiddleware.requireAnon, formMiddleware.requireFields, (req, res, next) => {
   const { username, password } = req.body;
-  if (!username || !password) {
-    return res.redirect('/auth/login');
-  }
   User.findOne({ username })
     .then((user) => {
       if (!user) {
+        // User not found
         return res.redirect('/auth/login');
       }
       if (bcrypt.compareSync(password, user.password)) {
+        // Username or password incorrect
         req.session.currentUser = user;
         res.redirect('/celebrities/new');
       } else {
@@ -60,7 +60,7 @@ router.post('/login', (req, res, next) => {
     .catch(next);
 });
 
-router.post('/logout', (req, res, next) => {
+router.post('/logout', authMiddleware.requireUser, (req, res, next) => {
   delete req.session.currentUser;
   res.redirect('/auth/login');
 });
