@@ -12,7 +12,11 @@ a {
   margin: 0 20px;
 }
 /* -- forms -- */
-
+form{
+  width: 50%;
+  border:1px solid black;
+  margin: 30px auto;
+}
 form.is-processing {
 	opacity: 0.5;
 }
