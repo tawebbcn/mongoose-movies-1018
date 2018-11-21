@@ -4,6 +4,23 @@ body {
 }
 
 
+/* Layout */
+.container{
+  margin: 0 20px;
+  background:red;
+  border: 3px solid pink;
+}
+
+
+
+/* -- forms -- */
+form{
+  width: 50%;
+  border:1px solid black;
+  margin: 30px auto;
+  background: #efefef;
+}
+
 form.is-processing {
 	opacity: 0.5;
 }
@@ -17,6 +34,8 @@ form label {
 	margin-bottom: 10px;
 	font-style: bold;
 }
+
+
 
 form input {
   padding: 5px;
@@ -39,9 +58,7 @@ form .field.has-error input {
 	border: 1px solid  red;
 }
 
-.container {
-  margin: 0 20px;
-  padding-top: 30px;
-  border: 1px solid violet;
-  border-radius: 20px;
+h1{
+  font-size: 55px;
+  color: blue;
 }
