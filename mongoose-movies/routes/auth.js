@@ -41,6 +41,7 @@ router.post('/signup', authMiddleware.requireAnon, formMiddleware.requireFields,
 
 router.post('/logout', authMiddleware.requireUser, (req, res, next) => {
   delete req.session.currentUser;
+  // redirect to login after log out
   res.redirect('/auth/login');
 });
 
