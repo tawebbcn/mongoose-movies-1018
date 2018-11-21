@@ -39,6 +39,11 @@ router.post('/signup', authMiddleware.requireAnon, formMiddleware.requireFields,
     .catch(next);
 });
 
+router.post('/logout', authMiddleware.requireUser, (req, res, next) => {
+  delete req.session.currentUser;
+  res.redirect('/auth/login');
+});
+
 router.get('/login', authMiddleware.requireAnon, (req, res, next) => {
   res.render('auth/login');
 });
@@ -60,11 +65,6 @@ router.post('/login', authMiddleware.requireAnon, formMiddleware.requireFields, 
       }
     })
     .catch(next);
-});
-
-router.post('/logout', authMiddleware.requireUser, (req, res, next) => {
-  delete req.session.currentUser;
-  res.redirect('/auth/login');
 });
 
 module.exports = router;
