@@ -3,20 +3,7 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
-a {
-  color: #00B7FF;
-}
 
-/* Layout */
-.container{
-  margin: 0 20px;
-}
-/* -- forms -- */
-form{
-  width: 50%;
-  border:1px solid black;
-  margin: 30px auto;
-}
 form.is-processing {
 	opacity: 0.5;
 }
@@ -40,14 +27,6 @@ form .submit {
   padding-top: 20px;
 }
 
-form .submit button {
-  padding: 5px 20px;
-  text-align: center;
-  font-size: 16px;
-  background-color: #27afdc;
-  cursor: pointer;
-}
-
 form .validation {
   margin: 5px 0 10px;
   color: red;
@@ -58,4 +37,11 @@ form .field.has-error label {
 }
 form .field.has-error input {
 	border: 1px solid  red;
+}
+
+.container {
+  margin: 0 20px;
+  padding-top: 30px;
+  border: 1px solid violet;
+  border-radius: 20px;
 }
